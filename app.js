@@ -550,13 +550,15 @@ SCREENS[13] = function(){
     {t:'Nele reitet.', a:'st-nelereitet'}
   ];
   function rowHtml(text){
-    let cells='';
-    for (const ch of text){
-      if (ch===' ') cells += '<span class="stl-gap"></span>';
-      else if (GLYPH[ch]) cells += '<span class="stl-cell"><img src="'+ICON+GLYPH[ch]+'.svg" alt="'+ch+'"></span>';
-      else cells += '<span class="stl-punct">'+ch+'</span>';
-    }
-    return cells;
+    // grupăm pe CUVINTE: un cuvânt nu se rupe niciodată la mijloc (fără despărțire în silabe)
+    return text.split(' ').map(word=>{
+      let cells='';
+      for (const ch of word){
+        if (GLYPH[ch]) cells += '<span class="stl-cell"><img src="'+ICON+GLYPH[ch]+'.svg" alt="'+ch+'"></span>';
+        else cells += '<span class="stl-punct">'+ch+'</span>';
+      }
+      return '<span class="stl-word">'+cells+'</span>';
+    }).join('');
   }
   let rows = SENT.map((s,i)=>
     '<div class="stl-block">' +
