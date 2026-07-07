@@ -16,12 +16,12 @@ const TOTAL_STEPS = 16;
 
 /* ---------- dictionar de cuvinte ---------- */
 const E = {
-  elefant: {de:'der Elefant', icon:'elefant', audio:'e-elefant', gen:'m', art:'der', ro:'elefantul', m:true},
-  ente:    {de:'die Ente',    icon:'ente',    audio:'e-ente',    gen:'f', art:'die', ro:'rața',       m:true},
-  esel:    {de:'der Esel',    icon:'esel',    audio:'e-esel',    gen:'m', art:'der', ro:'măgarul',    m:true},
-  engel:   {de:'der Engel',   icon:'engel',   audio:'e-engel',   gen:'m', art:'der', ro:'îngerul',    m:true},
-  erde:    {de:'die Erde',    icon:'erde',    audio:'e-erde',    gen:'f', art:'die', ro:'pământul',   m:true},
-  essen:   {de:'das Essen',   icon:'essen',   audio:'e-essen',   gen:'n', art:'das', ro:'mâncarea',   m:true},
+  elefant: {de:'der Elefant', icon:'elefant', audio:'e-elefant', audioArt:'e-art-elefant', gen:'m', art:'der', ro:'elefantul', m:true},
+  ente:    {de:'die Ente',    icon:'ente',    audio:'e-ente', audioArt:'e-art-ente',    gen:'f', art:'die', ro:'rața',       m:true},
+  esel:    {de:'der Esel',    icon:'esel',    audio:'e-esel', audioArt:'e-art-esel',    gen:'m', art:'der', ro:'măgarul',    m:true},
+  engel:   {de:'der Engel',   icon:'engel',   audio:'e-engel', audioArt:'e-art-engel',   gen:'m', art:'der', ro:'îngerul',    m:true},
+  erde:    {de:'die Erde',    icon:'erde',    audio:'e-erde', audioArt:'e-art-erde',    gen:'f', art:'die', ro:'pământul',   m:true},
+  essen:   {de:'das Essen',   icon:'essen',   audio:'e-essen', audioArt:'e-art-essen',   gen:'n', art:'das', ro:'mâncarea',   m:true},
   maus:  {de:'die Maus',  icon:'m-maus',audio:'e-maus',  gen:'f', art:'die', ro:'șoricelul', m:false},
   mond:  {de:'der Mond',  icon:'m-mond',audio:'e-mond',  gen:'m', art:'der', ro:'luna',      m:false},
   ball:  {de:'der Ball',  icon:'ball',  audio:'e-ball',  gen:'m', art:'der', ro:'mingea',    m:false},
@@ -218,7 +218,7 @@ SCREENS[3] = function(){
     '<h1 class="title" style="font-size:1.5rem">Cuvinte cu E</h1>' +
     '<div class="cards">'+cards+'</div>' + nextBtn()
   );
-  stage.querySelectorAll('.card').forEach(el=>{ el.onclick = ()=>{ el.classList.add('tapped'); play(E[el.dataset.k].audio); }; });
+  stage.querySelectorAll('.card').forEach(el=>{ el.onclick = ()=>{ el.classList.add('tapped'); play(E[el.dataset.k].audioArt||E[el.dataset.k].audio); }; });
   wireNext(4);
 };
 
@@ -451,8 +451,9 @@ SCREENS[10] = function(){
       nextBtn()
     );
     const fc = document.getElementById('fc');
-    fc.onclick = ()=>{ fc.classList.toggle('flipped'); play(w.audio); };
-    play(w.audio);
+    const _wav = w.audioArt||w.audio;
+    fc.onclick = ()=>{ fc.classList.toggle('flipped'); play(_wav); };
+    play(_wav);
     const pv=document.getElementById('cprev'), nx=document.getElementById('cnext');
     pv.disabled = (i<=0); nx.disabled = (i>=WORDS_E.length-1);
     pv.onclick = ()=>{ if(i>0){ i--; card(); } };
